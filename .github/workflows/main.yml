@@ -1,0 +1,44 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "./go.mod"
+      - run: make init
+      - run: make lint
+
+  test:
+    runs-on: ubuntu-latest
+    # try redis service?
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "./go.mod"
+      - run: make init
+      - run: make test
+
+  # https://dev.to/koddr/github-action-for-release-your-go-projects-as-fast-and-easily-as-possible-20a2
+  release:
+    runs-on: ubuntu-latest
+    # try redis service?
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "./go.mod"
+      # - uses: goreleaser/goreleaser-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     version: latest
+      #     args: release --rm-dist
